@@ -1,4 +1,5 @@
-Use WhatsApp;
+CREATE DATABASE WhatsApp;
+USE WhatsApp;
 CREATE TABLE Users
 (
 	UserID INT PRIMARY KEY IDENTITY(1,1),
