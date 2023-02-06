@@ -1,0 +1,53 @@
+CREATE DATABASE WhatsApp;
+USE WhatsApp;
+CREATE TABLE Users
+(
+	UserID INT PRIMARY KEY IDENTITY(1,1),
+	UserName VARCHAR(50) NOT NULL,
+	PhoneNumber VARCHAR(50) NOT NULL,
+	Bio VARCHAR(255)
+);
+
+CREATE TABLE ContactOwners
+(
+	ContactOwnerID INT PRIMARY KEY NOT NULL,
+	FOREIGN KEY(ContactOwnerID) REFERENCES Users(UserId)
+);
+
+CREATE TABLE Contact
+(
+	OwnerID INT NOT NULL,
+	FriendID INT NOT NULL,
+	FOREIGN KEY(OwnerID) REFERENCES ContactOwners(ContactOwnerID),
+	FOREIGN KEY(FriendID) REFERENCES Users(UserID),
+);
+
+CREATE TABLE Groups
+(
+	GroupId INT PRIMARY KEY IDENTITY(1,1),
+	AdminID INT NOT NULL,
+	GroupName VARCHAR(50) NOT NULL,
+	GroupDescription VARCHAR (255),
+	FOREIGN KEY(AdminID) REFERENCES Users(UserID),
+);
+
+CREATE TABLE GroupMembers
+(
+	GroupId INT NOT NULL,
+	MemberID INT NOT NULL,
+	FOREIGN KEY(GroupId) REFERENCES Groups(GroupID),
+	FOREIGN KEY(MemberID) REFERENCES Users(UserID),
+);
+
+CREATE TABLE Chats
+(
+	ChatID int PRIMARY KEY IDENTITY(1,1),
+	ChatTimeStamp DATETIME NOT NULL,
+	TextField VARCHAR(MAX) NOT NULL,
+	SenderID INT NOT NULL,
+	RecepientID INT NOT NULL,
+	MultiRecipientID INT,
+	FOREIGN KEY(SenderID) REFERENCES Users(UserID),
+	FOREIGN KEY(RecepientID) REFERENCES Users(UserID),
+	FOREIGN KEY(MultiRecipientID) REFERENCES Groups(GroupID),
+);
